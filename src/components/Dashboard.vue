@@ -1,12 +1,12 @@
 <template>
   <aside class="p-2">
     <button class="mx-auto btn btn-lg btn-block btn-custom text-white shadow-none border-0">
-      Take a Tour
+      {{ buttonMessage }}
     </button>
     <button class="mx-auto mt-1 mb-3 btn btn-lg btn-block btn-info shadow-none border-0">
-      Take a Step
+      Next Step
     </button>
-    <button class="mx-auto btn btn-lg btn-block btn-secondary shadow-none border-0">
+    <button @click="$emit('chessboard-event', 'clearBoard')" class="mx-auto btn btn-lg btn-block btn-secondary shadow-none border-0">
       Clear Board
     </button>
   </aside>
@@ -14,7 +14,12 @@
 
 <script>
 export default {
-  name: "Dashboard"
+  name: "Dashboard",
+  data() {
+    return {
+      buttonMessage: "Take a Tour"
+    }
+  }
 }
 </script>
 
