@@ -1,12 +1,12 @@
 <template>
-  <div class="row">
-    <div class="col-md-9">
+  <section>
+    <article>
       <Chessboard @change-button-message="msg => $refs.dashboard.buttonMessage = msg" ref="chessboard" />
-    </div>
-    <div class="col-md-3">
+    </article>
+    <article>
       <Dashboard @chessboard-event="e => $refs.chessboard[e]()" ref="dashboard" />
-    </div>
-  </div>
+    </article>
+  </section>
 </template>
 
 <script>
@@ -21,3 +21,24 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+section {
+  display: flex;
+}
+article:nth-child(1) {
+  flex: 3.5;
+}
+article:nth-child(2) {
+  flex: 1;
+}
+
+@media screen and (max-width: 815px) {
+  section {
+    flex-direction: column;
+  }
+  article:nth-child(1) {
+    order: 1;
+  }
+}
+</style>

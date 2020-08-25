@@ -8,9 +8,7 @@
         </a>
       </div>
     </nav>
-    <div class="container-fluid">
-      <router-view />
-    </div>
+    <router-view />
   </div>
 </template>
 
