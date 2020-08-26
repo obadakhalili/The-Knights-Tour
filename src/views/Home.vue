@@ -1,20 +1,25 @@
 <template>
   <section>
+    <strong class="p-2">
+      {{ instruction }}
+    </strong>
     <article>
-      <Chessboard @change-button-message="msg => $refs.dashboard.buttonMessage = msg" ref="chessboard" />
+      <Chessboard ref="chessboard" />
     </article>
     <article>
-      <Dashboard @chessboard-event="e => $refs.chessboard[e]()" ref="dashboard" />
+      <Dashboard @chessboard-event="e => $refs.chessboard[e]()" />
     </article>
   </section>
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import Chessboard from "@/components/Chessboard"
 import Dashboard from "@/components/Dashboard"
 
 export default {
   name: "Home",
+  computed: mapGetters(["instruction"]),
   components: {
     Chessboard,
     Dashboard
@@ -26,19 +31,23 @@ export default {
 section {
   display: flex;
 }
-article:nth-child(1) {
-  flex: 3.5;
+
+
+strong:nth-of-type(1) {
+  flex: .35;
 }
-article:nth-child(2) {
-  flex: 1;
+
+article:nth-of-type(1) {
+  flex: 3;
 }
+article:nth-of-type(2) {
+  flex: .75;
+}
+
 
 @media screen and (max-width: 815px) {
   section {
-    flex-direction: column;
-  }
-  article:nth-child(1) {
-    order: 1;
+    flex-direction: column-reverse;
   }
 }
 </style>
