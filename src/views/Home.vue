@@ -34,14 +34,14 @@ section {
 
 
 strong:nth-of-type(1) {
-  flex: .35;
+  flex: .5;
 }
 
 article:nth-of-type(1) {
   flex: 3;
 }
 article:nth-of-type(2) {
-  flex: .75;
+  flex: 1;
 }
 
 

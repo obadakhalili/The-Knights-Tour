@@ -5,6 +5,7 @@
 <script>
 import Chess from "chess.js"
 import { mapGetters } from "vuex"
+import { markupSquare } from "@/helpers"
 
 export default {
   name: "Chessboard",
@@ -22,41 +23,47 @@ export default {
       takenSpots: []
     }
   },
-  computed: mapGetters(["boardState"]),
+  computed: {
+    squaresEl() {
+      return Array.from(this.board.shadowRoot.querySelector("[part~='board']").children)
+    }
+  },
   methods: {
     boardReady() {
       this.game = new Chess(this.board.fen() + this.positionSuffix)
 
+      const targetId = "square-" + Object.keys(this.board.position)  
+      markupSquare(1, targetId, this.squaresEl)
+
       this.$store.dispatch("updateBoardState", "ready")
-      this.$store.dispatch("updateInstruction", "Press the greenish button if you want to take the full tour, the bluish one if you want the algorithm to figure out the next step for you, or move the knight on your own")
+      this.$store.dispatch("updateInstruction", "Press the greenish button if you want to take the full tour, the yellowish one if you want the algorithm to figure out the next step for you, or move the knight on your own")
     },
     droped({ detail }) {
       const { source, target, setAction } = detail
-      const nextSpot = target === "offboard" ? source : target
 
-      if (this.boardState === "ready") {
-        
-        const move = this.game.move({
-          from: source,
-          to: target
-        })  
+      if (this.$store.getters.boardState === "unready") {
+        return this.takenSpots[0] = target === "offboard" ? source : target
+      }
 
-        if (!move || this.takenSpots.includes(target)) {
-          this.game.undo()
-          return setAction("snapback")
-        }
-        
-        this.game.load(this.game.fen().replace(/\s.+/, this.positionSuffix))
-        this.takenSpots.push(nextSpot)
+      const move = this.game.move({
+        from: source,
+        to: target
+      })
 
-        if (this.takenSpots.length > 1) {
-          this.$store.dispatch("updateTourBtnMsg", "Complete This Tour")
-        }
+      if (!move || this.takenSpots.includes(target)) {
+        this.game.undo()
+        return setAction("snapback")
+      }
+      
+      this.game.load(this.game.fen().replace(/\s.+/, this.positionSuffix))
+      this.takenSpots.push(target === "offboard" ? source : target)
 
-        // the 64 squares of the board
-        // this.board.shadowRoot.querySelector("[part~='board']").children
-      } else {
-        this.takenSpots[0] = nextSpot
+      const targetId = "square-" + target
+      markupSquare(this.takenSpots.length, targetId, this.squaresEl)
+
+      if (this.takenSpots.length === 2) {
+        this.$store.dispatch("updateTourBtnMsg", "Complete This Tour")
+        this.$store.dispatch("updateInstruction", "You can still press the greenish button if you want the algorithm to take it from here")
       }
     },
     nextStep() {
@@ -67,11 +74,10 @@ export default {
     },
     clearBoard() {
       // ..
-      
-      // state changers
+
       this.$store.dispatch("updateBoardState", "unready")
       this.$store.dispatch("updateTourBtnMsg", "Take a tour")
-      this.$store.dispatch("updateInstruction", "Place the knight at an initial position and press the I'm ready button")
+      this.$store.dispatch("updateInstruction", "Place the knight at an initial position and press the \"I'm ready\" button")
     }
   }
 }
@@ -79,15 +85,17 @@ export default {
 
 <style scoped>
 chess-board {
+  --dark-color:  #61774B;
+  --light-color:  #EEEED2;
   width: 550px;
   margin: auto;
-  padding: 3rem 0 0 0;
+  padding: 5rem 0 0 0;
 }
 
 @media only screen and (max-width: 816px) {
   chess-board {
     width: 95%;
-    padding: 0;
+    padding: 3rem 0 0 0;
   }
 }
 </style>
