@@ -5,6 +5,7 @@ export function markupSquare(markup, targetId, squaresEl) {
   const moveNumberEl = document.createElement("strong")
   const moveNumber = document.createTextNode(markup)
 
+  moveNumberContainer.setAttribute("id", "moveNumberContainer")
   moveNumberContainer.style.margin = 0
   moveNumberContainer.style.position = "absolute"
   moveNumberContainer.style.top = "50%"
@@ -18,4 +19,8 @@ export function markupSquare(markup, targetId, squaresEl) {
   moveNumberEl.appendChild(moveNumber)
 
   targetEl.appendChild(moveNumberContainer)
+}
+
+export function removeSquaresMarkup(squaresEl) {
+  squaresEl.forEach(squareEl => Array.from(squareEl.children).find(child => child.id === "moveNumberContainer")?.remove())
 }

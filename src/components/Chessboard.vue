@@ -5,22 +5,21 @@
 <script>
 import Chess from "chess.js"
 import { mapGetters } from "vuex"
-import { markupSquare } from "@/helpers"
+import { markupSquare, removeSquaresMarkup } from "@/helpers"
 
 export default {
   name: "Chessboard",
   mounted() {
     this.board = document.querySelector("chess-board")
-    this.board.setPosition({ c6: "bN" })
-    this.takenSpots[0] = "c6"
     this.board.addEventListener("drop", this.droped)
+    this.reset()
   },
   data() {
     return {
       board: null,
-      game: null,
-      positionSuffix: " b - - 0 1",
-      takenSpots: []
+      takenSpots: null,
+      game: new Chess(),
+      positionSuffix: " b - - 0 1"
     }
   },
   computed: {
@@ -30,7 +29,7 @@ export default {
   },
   methods: {
     boardReady() {
-      this.game = new Chess(this.board.fen() + this.positionSuffix)
+      this.game.load(this.board.fen() + this.positionSuffix)
 
       const targetId = "square-" + Object.keys(this.board.position)  
       markupSquare(1, targetId, this.squaresEl)
@@ -73,11 +72,16 @@ export default {
       // ..
     },
     clearBoard() {
-      // ..
+      this.reset()
+      removeSquaresMarkup(this.squaresEl)
 
       this.$store.dispatch("updateBoardState", "unready")
       this.$store.dispatch("updateTourBtnMsg", "Take a tour")
       this.$store.dispatch("updateInstruction", "Place the knight at an initial position and press the \"I'm ready\" button")
+    },
+    reset() {
+      this.board.setPosition({ c6: "bN" })
+      this.takenSpots = ["c6"]
     }
   }
 }
