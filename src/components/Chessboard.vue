@@ -10,13 +10,13 @@ import { markupSquare, removeSquaresMarkup } from "@/helpers"
 export default {
   name: "Chessboard",
   mounted() {
-    this.board = document.querySelector("chess-board")
-    this.board.addEventListener("drop", this.droped)
+    this.boardEl = document.querySelector("chess-board")
+    this.boardEl.addEventListener("drop", this.droped)
     this.reset()
   },
   data() {
     return {
-      board: null,
+      boardEl: null,
       takenSpots: null,
       game: new Chess(),
       positionSuffix: " b - - 0 1"
@@ -24,14 +24,14 @@ export default {
   },
   computed: {
     squaresEl() {
-      return Array.from(this.board.shadowRoot.querySelector("[part~='board']").children)
+      return Array.from(this.boardEl.shadowRoot.querySelector("[part~='board']").children)
     }
   },
   methods: {
     boardReady() {
-      this.game.load(this.board.fen() + this.positionSuffix)
+      this.game.load(this.boardEl.fen() + this.positionSuffix)
 
-      const targetId = "square-" + Object.keys(this.board.position)  
+      const targetId = "square-" + Object.keys(this.boardEl.position)  
       markupSquare(1, targetId, this.squaresEl)
 
       this.$store.dispatch("updateBoardState", "ready")
@@ -80,7 +80,7 @@ export default {
       this.$store.dispatch("updateInstruction", "Place the knight at an initial position and press the \"I'm ready\" button")
     },
     reset() {
-      this.board.setPosition({ c6: "bN" })
+      this.boardEl.setPosition({ c6: "bN" })
       this.takenSpots = ["c6"]
     }
   }
