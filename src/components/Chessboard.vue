@@ -61,7 +61,7 @@ export default {
       markupSquare(this.takenSpots.length, targetId, this.squaresEl)
 
       if (this.takenSpots.length === 2) {
-        this.$store.dispatch("updateTourBtnMsg", "Complete This Tour")
+        this.$store.dispatch("updateTourBtnMsg", "Complete this tour")
         this.$store.dispatch("updateInstruction", "You can still press the greenish button if you want the algorithm to take it from here")
       }
     },
