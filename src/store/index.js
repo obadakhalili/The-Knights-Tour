@@ -7,7 +7,7 @@ export default new Vuex.Store({
   state: {
     boardState: "unready",
     tourBtnMsg: "Take a tour",
-    instruction: "Place the knight at an initial position and press the bluish button"
+    instruction: "Place the knight at an initial position and press the yellowish button"
   },
   mutations: {
     UPDATE_BOARD_STATE(state, payload) {

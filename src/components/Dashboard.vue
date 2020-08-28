@@ -4,7 +4,7 @@
       <h6>Once you ready</h6>
       <button
         @click="$emit('chessboard-event', 'boardReady')"
-        class="btn btn-lg btn-block btn-info shadow-none border-0"
+        class="btn btn-lg btn-block btn-move shadow-none border-0"
       >
         I'm ready
       </button>
@@ -21,7 +21,7 @@
         <button
           @click="boardIsVisualizing ? updateInstruction('Board is busy!') : $emit('chessboard-event', 'nextMove')"
           :class="{ 'disabled': boardIsVisualizing }"
-          class="btn btn-lg btn-step shadow-none border-0"
+          class="btn btn-lg btn-move shadow-none border-0"
         >
           Next move
         </button>
@@ -59,10 +59,10 @@ export default {
   background-color: #2d6a4f;
 }
 
-.btn-step {
+.btn-move {
   background-color: #EEF4BD;
 }
-.btn-step:hover {
+.btn-move:hover {
   background-color: #DCE3AC;
 }
 

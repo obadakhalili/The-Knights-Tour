@@ -151,7 +151,7 @@ export default {
       this.changeState({
         updateBoardState: "unready",
         updateTourBtnMsg: "Take a tour",
-        updateInstruction: "Place the knight at an initial position and press the bluish button"
+        updateInstruction: "Place the knight at an initial position and press the yellowish button"
       })
     }
   }
