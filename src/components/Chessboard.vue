@@ -128,7 +128,7 @@ export default {
       })
 
       const timeout = setTimeout(() => {
-        this.changeState({ updateInstruction: "If you liked it, consider giving it a start on GitHub" })
+        this.changeState({ updateBoardState: "solved" })
       }, tour.length * this.delayTime)
       this.timeouts.push(timeout)
     },

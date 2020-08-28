@@ -27,7 +27,7 @@ export default new Vuex.Store({
       } else if (payload === "inaction") {
         state.instruction = "Working on it ..."
       } else {
-        state.instruction = "Done!"
+        state.instruction = "If you liked it, consider giving it a start on GitHub"
       }
     },
     UPDATE_TOUR_BTN_MSG(state, msg) {
