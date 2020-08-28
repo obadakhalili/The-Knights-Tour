@@ -89,7 +89,7 @@ export default {
         move = warnsdorff.nextMove(this.currentPosition(), this.takenSpots)
       } catch {
         this.clearBoard()
-        return this.changeState({ updateInstruction: "You got yourself stuck! If you liked it, consider giving it a start on GitHub!" })
+        return this.changeState({ updateInstruction: "You got yourself stuck! If you liked it, consider giving it a start on GitHub" })
       }
       
       this.boardEl.setPosition({ [move]: "bN" })
@@ -136,7 +136,7 @@ export default {
       })
 
       const timeout = setTimeout(() => {
-        this.changeState({ updateInstruction: "If you liked it, consider giving it a start on GitHub!" })
+        this.changeState({ updateInstruction: "If you liked it, consider giving it a start on GitHub" })
       }, tour.length * 150)
       this.timeouts.push(timeout)
     },
