@@ -8,7 +8,7 @@ export default new Vuex.Store({
     delayTime: 150,
     boardState: "unready",
     tourBtnMsg: "Take a tour",
-    instruction: "Place the knight at an initial position and press the yellowish button"
+    instruction: "Place the knight at an initial position and press I'm ready"
   },
   mutations: {
     UPDATE_DELAY_TIME(state, delay) {
@@ -22,8 +22,8 @@ export default new Vuex.Store({
       } else if (payload === "inaction") {
         state.instruction = "Working on it ..."
       } else {
-        state.instruction = "Place the knight at an initial position and press the yellowish button"
         state.tourBtnMsg = "Take a tour"
+        state.instruction = "Place the knight at an initial position and press I'm ready"
       }
     },
     UPDATE_TOUR_BTN_MSG(state, msg) {
