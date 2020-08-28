@@ -11,6 +11,11 @@ export default new Vuex.Store({
     instruction: "Place the knight at an initial position and press I'm ready"
   },
   mutations: {
+    RESET(state) {
+      state.boardState = "unready",
+      state.tourBtnMsg = "Take a tour",
+      state.instruction = "Place the knight at an initial position and press I'm ready"
+    },
     UPDATE_DELAY_TIME(state, delay) {
       state.delayTime = delay
     },
@@ -19,11 +24,8 @@ export default new Vuex.Store({
       if (payload === "ready") {
         state.instruction =
           "Press the greenish button if you want to take the full tour, the yellowish one if you want the algorithm to figure out the next step for you, or move the knight on your own"
-      } else if (payload === "inaction") {
-        state.instruction = "Working on it ..."
       } else {
-        state.tourBtnMsg = "Take a tour"
-        state.instruction = "Place the knight at an initial position and press I'm ready"
+        state.instruction = "Working on it ..."
       }
     },
     UPDATE_TOUR_BTN_MSG(state, msg) {
@@ -34,10 +36,16 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    reset({ commit }) {
+      commit("RESET")
+    },
     updateDelayTime({ commit }, payload) {
       commit("UPDATE_DELAY_TIME", payload)
     },
     updateBoardState({ commit }, payload) {
+      if (payload === "unready") {
+        return commit("RESET")
+      }
       commit("UPDATE_BOARD_STATE", payload)
     },
     updateTourBtnMsg({ commit }, msg) {
