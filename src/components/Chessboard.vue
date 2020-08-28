@@ -129,7 +129,7 @@ export default {
 
       const timeout = setTimeout(() => {
         this.changeState({ updateBoardState: "solved" })
-      }, tour.length * this.delayTime)
+      }, this.delayTime * tour.length)
       this.timeouts.push(timeout)
     },
     clearBoard() {
