@@ -96,6 +96,8 @@ export default {
           updateTourBtnMsg: "Complete this tour",
           updateInstruction: "You can still press the greenish button if you want the algorithm to take it from here"
         })
+      } else if (this.takenSpots.length === 64) {
+        this.changeState({ updateBoardState: "solved" })
       }
     },
     takeTour() {

@@ -1,6 +1,6 @@
 <template>
   <aside class="p-2">
-    <template v-if="boardState === 'unready'">
+    <template v-if="boardIsUnReady">
       <h6>Once you ready</h6>
       <button
         @click="$emit('chessboard-event', 'boardReady')"
@@ -12,15 +12,15 @@
     <template v-else>
       <div class="btn-group btn-block">
         <button
-          @click="boardIsVisualizing ? updateInstruction('Board is busy!') : $emit('chessboard-event', 'takeTour')"
-          :class="{ 'disabled': boardIsVisualizing }"
+          @click="chessboardEvent('takeTour')"
+          :class="{ 'disabled': disableButton }"
           class="btn btn-lg btn-tour text-white shadow-none border-0"
         >
           {{ tourBtnMsg }}
         </button>
         <button
-          @click="boardIsVisualizing ? updateInstruction('Board is busy!') : $emit('chessboard-event', 'nextMove')"
-          :class="{ 'disabled': boardIsVisualizing }"
+          @click="chessboardEvent('nextMove')"
+          :class="{ 'disabled': disableButton }"
           class="btn btn-lg btn-move shadow-none border-0"
         >
           Next move
@@ -41,14 +41,20 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex"
+import { mapGetters } from "vuex"
 
 export default {
   name: "Dashboard",
   computed: {
-    ...mapGetters(["tourBtnMsg", "boardState"]),
+    ...mapGetters(["tourBtnMsg"]),
+    boardIsUnReady() {
+      return this.$store.getters.boardState === "unready"
+    },
     boardIsVisualizing() {
-      return this.boardState === "inaction"
+      return this.$store.getters.boardState === "inaction"
+    },
+    disableButton() {
+      return this.$store.getters.boardState === "solved" || this.boardIsVisualizing
     },
     delayTime: {
       get() {
@@ -59,7 +65,13 @@ export default {
       }
     }
   },
-  methods: mapActions(["updateInstruction"])
+  methods: {
+    chessboardEvent(e) {
+      if (!this.disableButton) {
+        this.$emit("chessboard-event", e)
+      }
+    }
+  }
 }
 </script>
 

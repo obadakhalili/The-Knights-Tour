@@ -24,8 +24,10 @@ export default new Vuex.Store({
       if (payload === "ready") {
         state.instruction =
           "Press the greenish button if you want to take the full tour, the yellowish one if you want the algorithm to figure out the next step for you, or move the knight on your own"
-      } else {
+      } else if (payload === "inaction") {
         state.instruction = "Working on it ..."
+      } else {
+        state.instruction = "Done!"
       }
     },
     UPDATE_TOUR_BTN_MSG(state, msg) {
