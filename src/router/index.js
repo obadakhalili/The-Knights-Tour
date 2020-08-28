@@ -7,6 +7,10 @@ const routes = [
   {
     path: "/",
     component: () => import("@/views/Home")
+  },
+  {
+    path: "*",
+    redirect: "/"
   }
 ];
 
