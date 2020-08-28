@@ -3,7 +3,7 @@
     <template v-if="boardIsUnReady">
       <h6>Once you ready</h6>
       <button
-        @click="$emit('chessboard-event', 'boardReady')"
+        @click="chessboardEvent('boardReady')"
         class="btn btn-lg btn-block btn-move shadow-none border-0"
       >
         I'm ready
@@ -31,7 +31,7 @@
         <input v-model="delayTime" :disabled="boardIsVisualizing" type="number" class="form-control form-control-sm">
       </div>
       <button
-        @click="$emit('chessboard-event', 'clearBoard')"
+        @click="chessboardEvent('clearBoard')"
         class="my-2 btn btn-lg btn-block btn-secondary shadow-none border-0"
       >
         Clear board
@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     chessboardEvent(e) {
-      if (!this.disableButton) {
+      if (["boardReady", "clearBoard"].includes(e) || !this.disableButton) {
         this.$emit("chessboard-event", e)
       }
     }
