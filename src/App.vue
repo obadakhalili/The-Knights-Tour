@@ -14,7 +14,9 @@
             <router-link :class="{ active: $route.path === '/about' }" class="nav-link"  href="/about" to="/about">
               About
             </router-link>
-            <a class="nav-link" href="https://github.com/obadakhalili/The-Knights-Tour/" target="_blank">Source Code on GitHub</a>
+            <a class="nav-link" href="https://github.com/obadakhalili/The-Knights-Tour/" target="_blank">
+              Source Code on GitHub
+            </a>
           </div>
         </div>
       </div>
