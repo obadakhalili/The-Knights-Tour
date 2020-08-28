@@ -13,7 +13,6 @@ export default {
   mounted() {
     this.boardEl = document.querySelector("chess-board")
     this.boardEl.addEventListener("drop", this.droped)
-    
     this.reset()
   },
   data() {
@@ -67,9 +66,8 @@ export default {
         return setAction("snapback")
       }
       
-      this.game.load(this.game.fen().replace(/\s.+/, this.positionSuffix))
       this.takenSpots.push(target === "offboard" ? source : target)
-      
+      this.game.load(this.game.fen().replace(/\s.+/, this.positionSuffix))
       this.markup(target)
 
       if (this.takenSpots.length === 2) {
@@ -89,9 +87,8 @@ export default {
       }
       
       this.boardEl.setPosition({ [move]: "bN" })
-      setTimeout(() => this.markup(move), this.delayTime)
-
       this.game.load(this.boardEl.fen() + this.positionSuffix)
+      setTimeout(() => this.markup(move), this.delayTime)
 
       if (this.takenSpots.length === 2) {
         this.changeState({
