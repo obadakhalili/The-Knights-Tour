@@ -4,9 +4,6 @@
       <strong>
         {{ instruction }}
       </strong>
-      <section>
-        <a href="https://github.com/obadakhalili/The-Knights-Tour/" target="_blank">Project Link</a>
-      </section>
     </article>
     <article>
       <Chessboard ref="chessboard" />
@@ -44,7 +41,7 @@ article:nth-child(2) {
   flex: 3;
 }
 article:nth-child(3) {
-  flex: 1;
+  flex: 1.15;
 }
 
 

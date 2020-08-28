@@ -107,7 +107,7 @@ export default {
     takeTour() {
       this.changeState({
         updateBoardState: "inaction",
-        updateInstruction: ""
+        updateInstruction: "Working on it ..."
       })
 
       const currentPosition = this.currentPosition()
@@ -115,7 +115,7 @@ export default {
         warnsdorff.takeTour(currentPosition, this.takenSpots)
       } catch {
         this.clearBoard()
-        return this.changeState({ updateInstruction: "You got yourself stuck! If you liked it, consider giving it a start on GitHub!" })
+        return this.changeState({ updateInstruction: "You got yourself stuck! If you liked it, consider giving it a start on GitHub" })
       }
       
       const currentPositionIndex = this.takenSpots.indexOf(currentPosition)
@@ -164,13 +164,12 @@ chess-board {
   --light-color:  #EEEED2;
   width: 550px;
   margin: auto;
-  padding: 5rem 0 0 0;
+  padding: 3rem 0 0 0;
 }
 
 @media only screen and (max-width: 816px) {
   chess-board {
     width: 95%;
-    padding: 3rem 0 0 0;
   }
 }
 </style>
