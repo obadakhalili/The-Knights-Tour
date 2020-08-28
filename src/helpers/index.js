@@ -1,6 +1,4 @@
-export function markupSquare(markup, targetId, squaresEl) {
-  const targetEl = squaresEl.find(({ id }) => id === targetId)
-
+export function markupSquare(markup, squareEl) {
   const moveNumberContainer = document.createElement("div")
   const moveNumberEl = document.createElement("strong")
   const moveNumber = document.createTextNode(markup)
@@ -13,12 +11,12 @@ export function markupSquare(markup, targetId, squaresEl) {
   moveNumberContainer.style.transform = "translate(-50%, -50%)"
   moveNumberContainer.style["-ms-transform"] = "translate(-50%, -50%)"
   moveNumberContainer.style["z-index"] = -1
-  targetEl.style["z-index"] = 1
+  squareEl.style["z-index"] = 1
   
   moveNumberContainer.appendChild(moveNumberEl)
   moveNumberEl.appendChild(moveNumber)
 
-  targetEl.appendChild(moveNumberContainer)
+  squareEl.appendChild(moveNumberContainer)
 }
 
 export function removeSquaresMarkup(squaresEl) {
