@@ -89,11 +89,4 @@ export default {
 .btn-move:hover {
   background-color: #DCE3AC;
 }
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .15s;
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}
 </style>
