@@ -12,6 +12,15 @@ export default new Vuex.Store({
   mutations: {
     UPDATE_BOARD_STATE(state, payload) {
       state.boardState = payload
+      if (payload === "ready") {
+        state.instruction =
+          "Press the greenish button if you want to take the full tour, the yellowish one if you want the algorithm to figure out the next step for you, or move the knight on your own"
+      } else if (payload === "inaction") {
+        state.instruction = "Working on it ..."
+      } else {
+        state.instruction = "Place the knight at an initial position and press the yellowish button"
+        state.tourBtnMsg = "Take a tour"
+      }
     },
     UPDATE_TOUR_BTN_MSG(state, msg) {
       state.tourBtnMsg = msg

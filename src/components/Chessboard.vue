@@ -46,13 +46,8 @@ export default {
     },
     boardReady() {
       this.game.load(this.boardEl.fen() + this.positionSuffix)
-
       this.markup(this.currentPosition(), 1)
-    
-      this.changeState({
-        updateBoardState: "ready",
-        updateInstruction: "Press the greenish button if you want to take the full tour, the yellowish one if you want the algorithm to figure out the next step for you, or move the knight on your own"
-      })
+      this.changeState({ updateBoardState: "ready" })
     },
     droped({ detail }) {
       const { source, target, setAction } = detail
@@ -84,12 +79,10 @@ export default {
       }
     },
     nextMove() {
-      let move;
-      try {
-        move = warnsdorff.nextMove(this.currentPosition(), this.takenSpots)
-      } catch {
+      const move = warnsdorff.nextMove(this.currentPosition(), this.takenSpots)
+      if (!move) {
         this.clearBoard()
-        return this.changeState({ updateInstruction: "You got yourself stuck! If you liked it, consider giving it a start on GitHub" })
+        return this.changeState({ updateInstruction: "You got yourself stuck!" })
       }
       
       this.boardEl.setPosition({ [move]: "bN" })
@@ -105,17 +98,14 @@ export default {
       }
     },
     takeTour() {
-      this.changeState({
-        updateBoardState: "inaction",
-        updateInstruction: "Working on it ..."
-      })
+      this.changeState({ updateBoardState: "inaction" })
 
       const currentPosition = this.currentPosition()
       try {
         warnsdorff.takeTour(currentPosition, this.takenSpots)
       } catch {
         this.clearBoard()
-        return this.changeState({ updateInstruction: "You got yourself stuck! If you liked it, consider giving it a start on GitHub" })
+        return this.changeState({ updateInstruction: "You got yourself stuck!" })
       }
       
       const currentPositionIndex = this.takenSpots.indexOf(currentPosition)
@@ -147,12 +137,7 @@ export default {
         this.selectInBoard("#moveNumberContainer").forEach(container => container.remove())
       }, 150)
       this.reset()
-
-      this.changeState({
-        updateBoardState: "unready",
-        updateTourBtnMsg: "Take a tour",
-        updateInstruction: "Place the knight at an initial position and press the yellowish button"
-      })
+      this.changeState({ updateBoardState: "unready" })
     }
   }
 }
