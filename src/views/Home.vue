@@ -1,8 +1,13 @@
 <template>
   <section>
-    <strong class="p-2">
-      {{ instruction }}
-    </strong>
+    <article class="p-2">
+      <strong>
+        {{ instruction }}
+      </strong>
+      <section>
+        <a href="https://github.com/obadakhalili/The-Knights-Tour/" target="_blank">Project Link</a>
+      </section>
+    </article>
     <article>
       <Chessboard ref="chessboard" />
     </article>
@@ -32,15 +37,13 @@ section {
   display: flex;
 }
 
-
-strong:nth-of-type(1) {
+article:nth-child(1) {
   flex: .5;
 }
-
-article:nth-of-type(1) {
+article:nth-child(2) {
   flex: 3;
 }
-article:nth-of-type(2) {
+article:nth-child(3) {
   flex: 1;
 }
 
