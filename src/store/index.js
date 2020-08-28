@@ -5,11 +5,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    delayTime: 150,
     boardState: "unready",
     tourBtnMsg: "Take a tour",
     instruction: "Place the knight at an initial position and press the yellowish button"
   },
   mutations: {
+    UPDATE_DELAY_TIME(state, delay) {
+      state.delayTime = delay
+    },
     UPDATE_BOARD_STATE(state, payload) {
       state.boardState = payload
       if (payload === "ready") {
@@ -25,22 +29,26 @@ export default new Vuex.Store({
     UPDATE_TOUR_BTN_MSG(state, msg) {
       state.tourBtnMsg = msg
     },
-    UPDATE_INSTRUCTION(state, msg) {
-      state.instruction = msg
+    UPDATE_INSTRUCTION(state, instruction) {
+      state.instruction = instruction
     }
   },
   actions: {
+    updateDelayTime({ commit }, payload) {
+      commit("UPDATE_DELAY_TIME", payload)
+    },
     updateBoardState({ commit }, payload) {
       commit("UPDATE_BOARD_STATE", payload)
     },
     updateTourBtnMsg({ commit }, msg) {
       commit("UPDATE_TOUR_BTN_MSG", msg)
     },
-    updateInstruction({ commit }, msg) {
-      commit("UPDATE_INSTRUCTION", msg)
+    updateInstruction({ commit }, instruction) {
+      commit("UPDATE_INSTRUCTION", instruction)
     }
   },
   getters: {
+    delayTime: ({ delayTime }) => delayTime,
     boardState: ({ boardState }) => boardState,
     tourBtnMsg: ({ tourBtnMsg }) => tourBtnMsg,
     instruction: ({ instruction }) => instruction

@@ -25,6 +25,7 @@ export default {
       positionSuffix: " b - - 0 1"
     }
   },
+  computed: mapGetters(["delayTime"]),
   methods: {
     changeState(state) {
       Object.entries(state).forEach(([key, value]) => this.$store.dispatch(key, value))
@@ -86,7 +87,7 @@ export default {
       }
       
       this.boardEl.setPosition({ [move]: "bN" })
-      setTimeout(() => this.markup(move), 150)
+      setTimeout(() => this.markup(move), this.delayTime)
 
       this.game.load(this.boardEl.fen() + this.positionSuffix)
 
@@ -120,14 +121,14 @@ export default {
       tour.forEach((move, index) => {
         const timeout = setTimeout(() => {
           this.boardEl.setPosition({ [move]: "bN" })
-          setTimeout(() => this.markup(move, offset + index + 1), 150)
-        }, 150 * index)
+          setTimeout(() => this.markup(move, offset + index + 1), this.delayTime)
+        }, this.delayTime * index)
         this.timeouts.push(timeout)
       })
 
       const timeout = setTimeout(() => {
         this.changeState({ updateInstruction: "If you liked it, consider giving it a start on GitHub" })
-      }, tour.length * 150)
+      }, tour.length * this.delayTime)
       this.timeouts.push(timeout)
     },
     clearBoard() {
@@ -135,7 +136,7 @@ export default {
       setTimeout(() => {
         this.selectInBoard(".square").forEach(square => square.style = "")
         this.selectInBoard("#moveNumberContainer").forEach(container => container.remove())
-      }, 150)
+      }, this.delayTime)
       this.reset()
       this.changeState({ updateBoardState: "unready" })
     }

@@ -26,6 +26,10 @@
           Next move
         </button>
       </div>
+      <div class="my-2">
+        <label>Delay between moves (ms)</label>
+        <input v-model="delayTime" :disabled="boardIsVisualizing" type="number" class="form-control form-control-sm">
+      </div>
       <button
         @click="$emit('chessboard-event', 'clearBoard')"
         class="my-2 btn btn-lg btn-block btn-secondary shadow-none border-0"
@@ -45,6 +49,14 @@ export default {
     ...mapGetters(["tourBtnMsg", "boardState"]),
     boardIsVisualizing() {
       return this.boardState === "inaction"
+    },
+    delayTime: {
+      get() {
+        return this.$store.getters.delayTime
+      },
+      set(delay) {
+        this.$store.dispatch("updateDelayTime", delay)
+      }
     }
   },
   methods: mapActions(["updateInstruction"])
