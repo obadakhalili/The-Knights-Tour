@@ -18,7 +18,3 @@ export function markupSquare(markup, squareEl) {
 
   squareEl.appendChild(moveNumberContainer)
 }
-
-export function removeSquaresMarkup(squaresEl) {
-  squaresEl.forEach(squareEl => Array.from(squareEl.children).find(child => child.id === "moveNumberContainer")?.remove())
-}
