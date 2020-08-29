@@ -12,7 +12,7 @@ const mutations = {
 }
 
 const actions = {
-  updateBoardState({ commit, getters, state }, boardState) {
+  updateBoardState({ commit }, boardState) {
     commit("UPDATE_BOARD_STATE", boardState)
     
     if (boardState === "ready") {
