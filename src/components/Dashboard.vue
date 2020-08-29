@@ -16,7 +16,7 @@
           :class="{ 'disabled': disableButton }"
           class="btn btn-lg btn-tour text-white shadow-none border-0"
         >
-          {{ tourBtnMsg }}
+          {{ tourButtonText }}
         </button>
         <button
           @click="chessboardEvent('nextMove')"
@@ -46,15 +46,18 @@ import { mapGetters } from "vuex"
 export default {
   name: "Dashboard",
   computed: {
-    ...mapGetters(["tourBtnMsg"]),
+    ...mapGetters(["boardState"]),
     boardIsUnReady() {
-      return this.$store.getters.boardState === "unready"
+      return this.boardState === "unready"
     },
     boardIsVisualizing() {
-      return this.$store.getters.boardState === "inaction"
+      return this.boardState === "visualizing"
     },
     disableButton() {
-      return this.$store.getters.boardState === "solved" || this.boardIsVisualizing
+      return this.boardIsVisualizing || this.boardState === "solved"
+    },
+    tourButtonText() {
+      return this.boardState === "solving" ? "Complete this tour" : "Take a tour"
     },
     delayTime: {
       get() {

@@ -22,7 +22,7 @@ const routes = [
 const router = new VueRouter({ routes });
 
 router.beforeEach((_1, _2, next) => {
-  store.dispatch("reset")
+  store.dispatch("updateBoardState", "unready")
   next()
 })
 

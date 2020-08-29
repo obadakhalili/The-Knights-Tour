@@ -12,18 +12,18 @@ export default {
   mounted() {
     this.boardEl = document.querySelector("chess-board")
     this.boardEl.addEventListener("drop", this.droped)
+    
     this.reset()
   },
   data() {
     return {
       boardEl: null,
       takenSpots: null,
-      timeouts: [],
       game: new Chess(),
       positionSuffix: " b - - 0 1"
     }
   },
-  computed: mapGetters(["delayTime"]),
+  computed: mapGetters(["timeouts", "delayTime"]),
   methods: {
     changeState(state) {
       Object.entries(state).forEach(([key, value]) => this.$store.dispatch(key, value))
@@ -40,19 +40,22 @@ export default {
       markupSquare(markup ? markup : this.takenSpots.length, squareEl)
     },
     reset() {
-      this.boardEl.setPosition({ c6: "bN" })
       this.takenSpots = ["c6"]
+      this.boardEl.setPosition({ c6: "bN" })
     },
     boardReady() {
       this.game.load(this.boardEl.fen() + this.positionSuffix)
       this.markup(this.currentPosition(), 1)
+
       this.changeState({ updateBoardState: "ready" })
     },
     droped({ detail }) {
       const { source, target, setAction } = detail
+      
       if (this.$store.getters.boardState === "unready") {
         return this.takenSpots[0] = target === "offboard" ? source : target
       }
+
       const move = this.game.move({
         from: source,
         to: target
@@ -64,12 +67,11 @@ export default {
       
       this.takenSpots.push(target === "offboard" ? source : target)
       this.game.load(this.game.fen().replace(/\s.+/, this.positionSuffix))
+      
       this.markup(target)
+      
       if (this.takenSpots.length === 2) {
-        this.changeState({
-          updateTourBtnMsg: "Complete this tour",
-          updateInstruction: "You can still press the greenish button if you want the algorithm to take it from here"
-        })
+        this.changeState({ updateBoardState: "solving" })
       } else if (this.takenSpots.length === 64) {
         this.changeState({ updateBoardState: "solved" })
       }
@@ -78,29 +80,28 @@ export default {
       const move = warnsdorff.nextMove(this.currentPosition(), this.takenSpots)
       if (!move) {
         this.clearBoard()
-        return this.changeState({ updateInstruction: "You got yourself stuck!" })
+        return this.changeState({ updateBoardState: "stucked" })
       }
       
       this.boardEl.setPosition({ [move]: "bN" })
       this.game.load(this.boardEl.fen() + this.positionSuffix)
-      setTimeout(() => this.markup(move), this.delayTime)
+      
+      setTimeout(() => this.markup(move), 150)
+      
       if (this.takenSpots.length === 2) {
-        this.changeState({
-          updateTourBtnMsg: "Complete this tour",
-          updateInstruction: "You can still press the greenish button if you want the algorithm to take it from here"
-        })
+        this.changeState({ updateBoardState: "solving" })
       } else if (this.takenSpots.length === 64) {
         this.changeState({ updateBoardState: "solved" })
       }
     },
     takeTour() {
-      this.changeState({ updateBoardState: "inaction" })
+      this.changeState({ updateBoardState: "visualizing" })
       const currentPosition = this.currentPosition()
       try {
         warnsdorff.takeTour(currentPosition, this.takenSpots)
       } catch {
         this.clearBoard()
-        return this.changeState({ updateInstruction: "You got yourself stuck!" })
+        return this.changeState({ updateBoardState: "stucked" })
       }
       
       const currentPositionIndex = this.takenSpots.indexOf(currentPosition)
@@ -110,6 +111,7 @@ export default {
     },
     visualizeTour(tour) {
       const offset = 64 - tour.length
+      
       tour.forEach((move, index) => {
         const timeout = setTimeout(() => {
           this.boardEl.setPosition({ [move]: "bN" })
@@ -117,13 +119,13 @@ export default {
         }, this.delayTime * index)
         this.timeouts.push(timeout)
       })
+
       const timeout = setTimeout(() => {
         this.changeState({ updateBoardState: "solved" })
       }, this.delayTime * tour.length)
       this.timeouts.push(timeout)
     },
     clearBoard() {
-      this.timeouts.forEach(clearTimeout)
       setTimeout(() => {
         this.selectInBoard(".square").forEach(square => square.style = "")
         this.selectInBoard("#moveNumberContainer").forEach(container => container.remove())

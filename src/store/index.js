@@ -1,66 +1,38 @@
 import Vue from "vue"
 import Vuex from "vuex"
+import board from "./modules/board"
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  modules: { board },
   state: {
-    delayTime: 150,
-    boardState: "unready",
-    tourBtnMsg: "Take a tour",
-    instruction: "Place the knight at an initial position and press I'm ready"
+    instruction: "",
+    timeouts: [],
+    delayTime: 150
   },
   mutations: {
-    RESET(state) {
-      state.boardState = "unready",
-      state.tourBtnMsg = "Take a tour",
-      state.instruction = "Place the knight at an initial position and press I'm ready"
+    UPDATE_INSTRUCTION(state, instruction) {
+      state.instruction = instruction
+    },
+    CLEAR_TIMEOUTS(state) {
+      state.timeouts.forEach(clearTimeout)
+    },
+    RESET_TIMEOUTS(state) {
+      state.timeouts = []
     },
     UPDATE_DELAY_TIME(state, delay) {
       state.delayTime = delay
-    },
-    UPDATE_BOARD_STATE(state, payload) {
-      state.boardState = payload
-      if (payload === "ready") {
-        state.instruction =
-          "Press the greenish button if you want to take the full tour, the yellowish one if you want the algorithm to figure out the next step for you, or move the knight on your own"
-      } else if (payload === "inaction") {
-        state.instruction = "Working on it ..."
-      } else {
-        state.instruction = "If you liked it, consider giving it a start on GitHub"
-      }
-    },
-    UPDATE_TOUR_BTN_MSG(state, msg) {
-      state.tourBtnMsg = msg
-    },
-    UPDATE_INSTRUCTION(state, instruction) {
-      state.instruction = instruction
     }
   },
   actions: {
-    reset({ commit }) {
-      commit("RESET")
-    },
     updateDelayTime({ commit }, payload) {
       commit("UPDATE_DELAY_TIME", payload)
-    },
-    updateBoardState({ commit }, payload) {
-      if (payload === "unready") {
-        return commit("RESET")
-      }
-      commit("UPDATE_BOARD_STATE", payload)
-    },
-    updateTourBtnMsg({ commit }, msg) {
-      commit("UPDATE_TOUR_BTN_MSG", msg)
-    },
-    updateInstruction({ commit }, instruction) {
-      commit("UPDATE_INSTRUCTION", instruction)
     }
   },
   getters: {
-    delayTime: ({ delayTime }) => delayTime,
-    boardState: ({ boardState }) => boardState,
-    tourBtnMsg: ({ tourBtnMsg }) => tourBtnMsg,
-    instruction: ({ instruction }) => instruction
+    instruction: ({ instruction }) => instruction,
+    timeouts: ({ timeouts }) => timeouts,
+    delayTime: ({ delayTime }) => delayTime
   }
 })
