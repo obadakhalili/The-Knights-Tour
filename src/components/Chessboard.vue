@@ -79,8 +79,7 @@ export default {
     nextMove() {
       const move = warnsdorff.nextMove(this.currentPosition(), this.takenSpots)
       if (!move) {
-        this.clearBoard()
-        return this.changeState({ updateBoardState: "stucked" })
+        return this.changeState({ updateBoardState: "stuck" })
       }
       
       this.boardEl.setPosition({ [move]: "bN" })
@@ -100,8 +99,7 @@ export default {
       try {
         warnsdorff.takeTour(currentPosition, this.takenSpots)
       } catch {
-        this.clearBoard()
-        return this.changeState({ updateBoardState: "stucked" })
+        return this.changeState({ updateBoardState: "stuck" })
       }
       
       const currentPositionIndex = this.takenSpots.indexOf(currentPosition)

@@ -54,7 +54,7 @@ export default {
       return this.boardState === "visualizing"
     },
     disableButton() {
-      return this.boardIsVisualizing || this.boardState === "solved"
+      return this.boardIsVisualizing || this.boardState === "stuck" || this.boardState === "solved"
     },
     tourButtonText() {
       return this.boardState === "solving" ? "Complete this tour" : "Take a tour"
