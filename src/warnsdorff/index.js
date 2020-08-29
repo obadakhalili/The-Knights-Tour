@@ -1,4 +1,3 @@
-  
 function allPossibleMoves(position, takenSpots) {
   position = position[1] - 1 + ("abcdefgh".indexOf(position[0]) << 4) // Convert
 
