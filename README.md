@@ -13,7 +13,7 @@ It consists of two steps:
 2. Choose the one with the lowest accessibility.
 
 Accessibility
-: The accessibility of square $x$ is the number of squares accessible from x.
+: The accessibility of square is the number of squares accessible from x.
 
 # The Fun Facts
 * On an 8 x 8 board, it has been proven that there are 26,534,728,821,064 closed-path tours!
